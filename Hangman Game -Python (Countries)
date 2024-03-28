@@ -1,0 +1,78 @@
+
+# Hangman Game 
+#based on a geeksforgeeks article
+import random 
+from collections import Counter 
+sample = '''india,china,japan,france,italy,canada,germany,ireland,finland'''
+# you can add as many countries as you want here
+sample = sample.split(',') 
+ 
+word = random.choice(sample) 
+#random.choice helps to choose any random value from a list
+
+if __name__ == '__main__': 
+	print('HINT: Name of a country') 
+
+	for w in word: 
+		# For printing the empty spaces for letters of the word 
+		print('_', end=' ') 		
+	print() 
+# end='' gives /n function, here the game points to next empty space after each turn
+	playing = True
+	# store guesses in a list called Guesslist
+	Guesslist = '' 
+	chances = len(word) + 3
+	correct = 0
+	flag = 0
+	try: 
+		while (chances != 0) and flag == 0: # flag incremented for each correct guess 
+			print() 
+			chances -= 1
+
+			
+			guess = str(input('Enter a letter to guess: ')) 
+
+			#validation
+			if not guess.isalpha(): 
+				print('Enter ALPHABETS only') 
+				continue
+			elif len(guess) & gt > 1: 
+				print('Enter only one letter at a time') 
+				continue
+			elif guess in Guesslist: 
+				print('the letter has already been guessed') 
+				continue
+
+			# when guess is correct 
+			if guess in word: 
+				# k stores the count of occurrences of the guessed letter in the word 
+				k = word.count(guess) 
+				for _ in range(k): 
+					Guesslist += guess # add the correctly guessed letter to the list 
+
+			# Print the final word 
+			for char in word: 
+				if char in Guesslist and (Counter(Guesslist) != Counter(word)): 
+					print(char, end=' ') 
+					correct += 1
+				# after user correctly guessed all the letters 
+				elif (Counter(letterGuessed) == Counter(word)): 
+					# the game stops and displays answer
+					print("The word is: ", end=' ') 
+					print(word) 
+					flag = 1
+					print('YAY!, You won') 
+					break # for loop 
+					break # while loop 
+				else: 
+					print('_', end=' ') 
+
+		# If user used up all his chances ,game-over
+		if chances & lt<= 0 and (Counter(letterGuessed) != Counter(word)): 
+			print() 
+			print('GAME OVER') 
+			print('The correct word was {}'.format(word)) 
+		#.format() is used for formatted print function
+	except KeyboardInterrupt: 
+		print() 
+		exit() 
